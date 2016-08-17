@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DifferFormatShi", "DifferFormatShi\DifferFormatShi.csproj", "{7B4CDA04-35DA-487F-8596-4DD2F6273E2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{30D5FF54-7052-4E71-AB16-B68EF14884C1}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSALMongo", "..\..\WebAPI\csal-db-master\CSALMongo\CSALMongo.csproj", "{BC5B872C-33E0-4BDE-AFEA-0E61591FE918}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B4CDA04-35DA-487F-8596-4DD2F6273E2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B4CDA04-35DA-487F-8596-4DD2F6273E2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B4CDA04-35DA-487F-8596-4DD2F6273E2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B4CDA04-35DA-487F-8596-4DD2F6273E2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5B872C-33E0-4BDE-AFEA-0E61591FE918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5B872C-33E0-4BDE-AFEA-0E61591FE918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5B872C-33E0-4BDE-AFEA-0E61591FE918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5B872C-33E0-4BDE-AFEA-0E61591FE918}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
