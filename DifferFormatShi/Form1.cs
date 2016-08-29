@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CSALMongo;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,10 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
-using CSALMongo;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace DifferFormatShi
 {
@@ -18,9 +19,9 @@ namespace DifferFormatShi
     {
         //should change the name of the database
         public const string DB_URL = "mongodb://localhost:27017/csaldata";
+        
         //protected MongoDatabase testDB = null;
         List<String> studentsInClass = new List<string>();
-
         List<String> needStudentsT = new List<string>();
         List<String> needStudentsA = new List<string>();
 
@@ -29,8 +30,7 @@ namespace DifferFormatShi
         public Form1()
         {
             InitializeComponent();
-
-
+           
             // Start 
             try
             {
@@ -76,61 +76,8 @@ namespace DifferFormatShi
                     }
                 }
 
-
-                //this.richTextBox1.Text = needStudentsA.Count.ToString();
-
-                List<String> allText = new List<String>();
-                foreach (String student in needStudentsA)
-                {
-                    if (!String.IsNullOrWhiteSpace(student))
-                    {
-                        // need to be careful here, may not right
-                        String perLesson = getInfoForOne(student);
-                        if (perLesson == null)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            if (perLesson == null || perLesson == "")
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                allText.Add(perLesson);
-                            }
-                            
-                        }
-
-                        //allText += recordCount.ToString() + "\t" + getInfoForOne(studentRecord) + "\n";
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                int recordID = 0;
-                this.richTextBox1.Text = Tags;
-                if (allText == null || allText.Count < 1)
-                {
-                    this.richTextBox1.AppendText("\n ***********************Show Nothing**********************\n");
-                }
-                else
-                {
-                    foreach (String perRecord in allText)
-                    {
-                        recordID = recordID + 1;
-                        /*
-                        String record1 = perRecord.Split(new String[] { "\n" }, StringSplitOptions.None)[0];
-                        String record2 = perRecord.Split(new string[] { "\n" }, StringSplitOptions.None)[1];
-                        this.richTextBox1.AppendText(recordID.ToString() + "\t" + record1 + "\n" + (recordID+1).ToString() + "\t" + record2 + "\n");
-                        */
-                        this.richTextBox1.AppendText(recordID.ToString() + "\t" + perRecord + "\n");
-                    }
-                }
-
+                getInfo(needStudentsA);
+                
             }
             catch (Exception e)
             {
@@ -142,43 +89,106 @@ namespace DifferFormatShi
         }
 
         // get one student's information
-        public String getInfoForOne(String studentRecord)
+        public void getInfo(List<String> studentRecords)
         {
-            String allRecord = "";
+            Dictionary<int, Func<string, string, string>> methods = new Dictionary<int, Func<string, string, string>>();
+            methods.Add(1, getPerRecord1);
+            methods.Add(2, getPerRecord2);
+            methods.Add(3, getPerRecord3);
+            methods.Add(4, getPerRecord4);
+            methods.Add(5, getPerRecord5);
+            methods.Add(6, getPerRecord6);
+            methods.Add(7, getPerRecord7);
+            methods.Add(8, getPerRecord8);
+            methods.Add(9, getPerRecord9);
+            methods.Add(10, getPerRecord10);
+            methods.Add(11, getPerRecord11);
+            methods.Add(12, getPerRecord12);
+            methods.Add(13, getPerRecord13);
+            methods.Add(14, getPerRecord14);
+            methods.Add(15, getPerRecord15);
+            methods.Add(16, getPerRecord16);
+            methods.Add(17, getPerRecord17);
+            methods.Add(18, getPerRecord18);
+            methods.Add(19, getPerRecord19);
+            methods.Add(20, getPerRecord20);
+            methods.Add(21, getPerRecord21);
+            methods.Add(22, getPerRecord22);
+            methods.Add(23, getPerRecord23);
+            methods.Add(24, getPerRecord24);
+            methods.Add(25, getPerRecord25);
+            methods.Add(26, getPerRecord26);
+            methods.Add(27, getPerRecord27);
+            methods.Add(28, getPerRecord28);
+            methods.Add(29, getPerRecord29);
+            methods.Add(30, getPerRecord30); 
+            methods.Add(31, getPerRecord31);
+            methods.Add(32, getPerRecord32);
+            methods.Add(33, getPerRecord33);
+            methods.Add(34, getPerRecord34);
 
-            for (int i = 1; i < 35; i++)
+           
+            Microsoft.Office.Interop.Excel.Application oXL;
+            Microsoft.Office.Interop.Excel._Workbook oWB;
+
+            object missing = Type.Missing;
+            try
             {
-                //2 | 4 | 8 | 10 | 11 | 12 | 13 | 14 | 18 | 26 | 27
-                //for Breya 
-                //if (i == 1 || i == 6 || i == 12 || i == 18 || i == 21)
-                // This is for Magen if(i == 4 || i == 7 || i == 9 || i == 16 || i == 30)
-                // for Shi 
-                //if (i == 2 || i == 13 || i == 15 || i == 19 || i == 25 || i == 28)
-                // for Haiying
-                if (i == 32)
-                {
-                    var lessonId = "lesson" + i.ToString();
-                    String classID = studentRecord.Split(new Char[] { '-' })[0];
-                    String subjectID = studentRecord.Split(new Char[] { '-' })[1];
-                    String perRecord = getPerRecord32(subjectID, lessonId);
-                    if (perRecord == null)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        /*
-                        String sentenceRow = perRecord.Split(new string[] { "\n" }, StringSplitOptions.None)[0];
-                        String scoreRow = perRecord.Split(new string[] { "\n" }, StringSplitOptions.None)[1];
-                        allRecord = subjectID + "\t" + classID + "\t" + sentenceRow + "\n" + subjectID + "\t" + classID + "\t" + scoreRow;
-                    */
-                        allRecord = subjectID + "\t" + classID + "\t" + perRecord;
+                string dir = "D:\\CSAL\\Tools\\ItemForEachLesson";
+                Directory.SetCurrentDirectory(dir);
 
+                //Start Excel and get Application object.
+                oXL = new Microsoft.Office.Interop.Excel.Application();
+                oXL.Visible = false;
+                oWB = oXL.Workbooks.Open("D:\\CSAL\\Tools\\ItemForEachLesson\\lessons.xls");
+
+                for (int i = 1; i < 35; i++)
+                {                    
+                    //Get a new workbook.                    
+                    Microsoft.Office.Interop.Excel.Worksheet oSheet2 = oWB.Sheets.Add(missing, missing, 1, missing)
+                        as Microsoft.Office.Interop.Excel.Worksheet;
+                    oSheet2.Name = "Lesson" + i;
+                    int rowNum = 1, columnNum = 1;
+                    foreach (string studentRecord in studentRecords)
+                    {
+                        columnNum = 1;
+                        if (!String.IsNullOrWhiteSpace(studentRecord))
+                        {
+                            var lessonId = "lesson" + i.ToString();
+                            String classID = studentRecord.Split(new Char[] { '-' })[0];
+                            String subjectID = studentRecord.Split(new Char[] { '-' })[1];
+                            String perRecord = methods[i](subjectID, lessonId);
+                            if (perRecord == null)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                string trueRecord = subjectID + "\t" + classID + "\t" + perRecord;
+                                string[] cells = trueRecord.Split(new string[] { "\t" }, StringSplitOptions.None);
+
+                                for (int cellNum = 0; cellNum < cells.Length; cellNum++)
+                                {
+                                    oSheet2.Cells[rowNum, columnNum] = cells[cellNum];
+                                    columnNum++;
+                                }
+
+                            }
+                        }
+                        rowNum++;
                     }
                 }
+                oWB.SaveAs("D:\\CSAL\\Tools\\ItemForEachLesson\\lessons.xls", Microsoft.Office.Interop.Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing,
+                            false, false, Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
+                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                oWB.Close();
+
+            }
+            catch (Exception e) {
+                e.GetBaseException();
             }
 
-            return allRecord;
+            
         }
 
         // lesson 1
